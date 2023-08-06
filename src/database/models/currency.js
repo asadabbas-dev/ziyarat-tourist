@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Currency.hasOne(models.Expense, { foreignKey: "currencyId" });
       Currency.hasOne(models.Country, { foreignKey: "currencyId" });
       Currency.hasMany(models.CurrencyRate, { foreignKey: "currencyId" });
+      Currency.hasMany(models.TouristAmount, { foreignKey: "currencyId" });
     }
   }
   Currency.init(
