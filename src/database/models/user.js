@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Tourist, { foreignKey: "userId" });
+      User.belongsTo(models.Lookup, { foreignKey: "RoleId" });
     }
   }
   User.init(

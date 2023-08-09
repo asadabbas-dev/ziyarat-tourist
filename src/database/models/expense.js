@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Expense.belongsTo(models.Currency, { foreignKey: "currencyId" });
       Expense.belongsTo(models.Country, { foreignKey: "countryId" });
+      Expense.belongsTo(models.Tour, { foreignKey: "tourId" });
       // One expense has belongs to one country
     }
   }
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       currencyId: DataTypes.INTEGER,
       countryId: DataTypes.INTEGER,
       isActive: DataTypes.BOOLEAN,
+      tourId: DataTypes.INTEGER,
     },
     {
       sequelize,
