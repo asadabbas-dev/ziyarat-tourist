@@ -15,13 +15,18 @@ module.exports = (sequelize, DataTypes) => {
       Country.belongsToMany(models.Tour, {
         through: models.TourCountry,
         foreignKey: "countryId",
-        otherKey: "tourId",
-        as: "tours",
+        as: "tours_table",
       });
     }
   }
   Country.init(
     {
+      countryId: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       name: DataTypes.STRING,
       currencyId: DataTypes.INTEGER,
       isActive: DataTypes.BOOLEAN,

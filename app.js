@@ -2,6 +2,7 @@ const express = require("express");
 const colors = require("colors");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const {
   errorHandler,
@@ -11,6 +12,7 @@ dotenv.config();
 
 //Routes imports
 const { authRouter } = require("./src/routes/auth");
+const { tourRouter } = require("./src/routes/tour");
 
 //Middlewares
 const app = express();
@@ -32,6 +34,7 @@ app.get("/", (req, res) => {
 //Routes Registration
 
 app.use("/api/auth", authRouter);
+app.use("/api/tour", tourRouter);
 app.use(errorHandler);
 
 module.exports = {

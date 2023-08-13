@@ -1,9 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { verifyToken } = require("../utils/jwt.utils");
 
-const authentication = asyncHandler(async (req, res, next) => {
+const authentication = async (req, res, next) => {
   let token;
-
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -13,7 +12,13 @@ const authentication = asyncHandler(async (req, res, next) => {
       const decoded = verifyToken(token);
 
       //verify user authenticity and map user to the req.user
+      const { userId, email } = decoded;
+      let user = {
+        userId,
+        email,
+      };
 
+      req.user = user;
       next();
     } catch (error) {
       console.error(`Error: ${error}`);
@@ -26,7 +31,7 @@ const authentication = asyncHandler(async (req, res, next) => {
     res.status(401);
     throw new Error("Unauthorized, token is missing.");
   }
-});
+};
 
 module.exports = {
   authentication,

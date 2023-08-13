@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Tour.belongsToMany(models.Country, {
         through: models.TourCountry,
         foreignKey: "tourId",
-        otherKey: "countryId",
-        as: "countries",
+        as: "countries_table",
       });
       Tour.hasMany(models.Tourist, { foreignKey: "tourId" });
       Tour.hasMany(models.TouristAmount, { foreignKey: "tourId" });
@@ -22,14 +21,24 @@ module.exports = (sequelize, DataTypes) => {
   }
   Tour.init(
     {
+      tourId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
       CreatedById: DataTypes.INTEGER,
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "Tour",
     }
   );
