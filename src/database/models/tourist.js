@@ -23,9 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       phone: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       tourId: DataTypes.INTEGER,
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "Tourist",
     }
   );

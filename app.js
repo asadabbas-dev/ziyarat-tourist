@@ -35,6 +35,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/tour", tourRouter);
+app.use("/api/tourist", tourRouter);
+app.use("/api/touristAmount", tourRouter);
 app.use(errorHandler);
 
 module.exports = {

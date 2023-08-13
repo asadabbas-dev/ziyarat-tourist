@@ -1,13 +1,6 @@
 const db = require("../database/models");
-const Sequelize = require("sequelize");
 const { Tour } = require("../database/models");
-const {
-  TourCountry,
-  TourCountries,
-  Country,
-  Countries,
-} = require("../database/models");
-const { Op } = require("sequelize");
+const { TourCountry, TourCountries, Country } = require("../database/models");
 
 const createTour = async (req, res) => {
   const transaction = await db.sequelize.transaction();
@@ -22,8 +15,6 @@ const createTour = async (req, res) => {
       CreatedById: req.user.userId,
     };
 
-    console.log("tour object is", tourObj);
-
     const tour = await Tour.create(tourObj, { transaction });
 
     const tourCountries = req.body.tourCountries || [];
@@ -37,7 +28,6 @@ const createTour = async (req, res) => {
     await Promise.all(tourCountryPromises);
     await transaction.commit();
 
-    console.log("Parent and children saved successfully.");
     res.status(201).json({
       data: tour,
       message: "tour created successfully",
@@ -45,7 +35,7 @@ const createTour = async (req, res) => {
     });
   } catch (error) {
     await transaction.rollback();
-    console.error("Error saving parent and children:", error);
+    console.error("error saving parent and children:", error);
     res.status(500).json({
       data: null,
       message: "internal server error i.e. " + error,
