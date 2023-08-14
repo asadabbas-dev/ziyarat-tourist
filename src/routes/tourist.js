@@ -8,7 +8,7 @@ touristRouter
   .post([authentication], touristController.createTourist);
 
 touristRouter
-  .route("/updateTourist/:id")
+  .route("/updateTourist/:userId")
   .put([authentication], touristController.updateTourist);
 
 touristRouter
@@ -20,7 +20,7 @@ touristRouter
   .get([authentication], touristController.getByTouristId);
 
 touristRouter
-  .route("/getTourist")
+  .route("/getTourists")
   .get([authentication], touristController.getTourists);
 
 module.exports = {

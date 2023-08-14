@@ -23,9 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       receivedAmountInUsd: DataTypes.FLOAT,
       receivedAmountInRupees: DataTypes.FLOAT,
       touristId: DataTypes.INTEGER,
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       sequelize,
+      paranoid: true,
       modelName: "TouristAmount",
     }
   );

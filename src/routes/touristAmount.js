@@ -3,25 +3,22 @@ const touristAmountRouter = express.Router();
 const touristAmountController = require("../controllers/TouristAmountController");
 const { authentication } = require("../middlewares/auth.middleware");
 
-touristRouter
+touristAmountRouter
   .route("/create")
-  .post([authentication], touristController.createTourist);
+  .post([authentication], touristAmountController.addTouristAmount);
 
-touristRouter
+touristAmountRouter
   .route("/update/:id")
-  .put([authentication], touristController.updateTourist);
+  .put([authentication], touristAmountController.updateTouristAmount);
 
-touristRouter
-  .route("/delete/:id")
-  .delete([authentication], touristController.deleteTourist);
+touristAmountRouter
+  .route("/delete/:tourId/:touristId")
+  .delete([authentication], touristAmountController.deleteTouristAmountEntry);
 
-touristRouter
-  .route("/getTouristAmount/:id")
-  .get([authentication], touristController.getByTouristId);
-
-touristRouter
+touristAmountRouter
   .route("/getTouristAmounts")
-  .get([authentication], touristController.getTourists);
+  .get([authentication], touristAmountController.getAllTouristAmountById);
+
 module.exports = {
   touristAmountRouter,
 };

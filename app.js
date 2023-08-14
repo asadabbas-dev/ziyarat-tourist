@@ -13,6 +13,8 @@ dotenv.config();
 //Routes imports
 const { authRouter } = require("./src/routes/auth");
 const { tourRouter } = require("./src/routes/tour");
+const { touristRouter } = require("./src/routes/tourist");
+const { touristAmountRouter } = require("./src/routes/touristAmount");
 
 //Middlewares
 const app = express();
@@ -35,8 +37,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/tour", tourRouter);
-app.use("/api/tourist", tourRouter);
-app.use("/api/touristAmount", tourRouter);
+app.use("/api/tourist", touristRouter);
+app.use("/api/touristAmount", touristAmountRouter);
 app.use(errorHandler);
 
 module.exports = {

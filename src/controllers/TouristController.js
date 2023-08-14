@@ -1,13 +1,22 @@
-const { Op } = require("sequelize");
+const { Op, Model } = require("sequelize");
 const db = require("../database/models");
-const { Tourist, Country, User } = require("../database/models");
+const { Tourist, Country, User, Tour } = require("../database/models");
 
 const createTourist = async (req, res) => {
   const transaction = await db.sequelize.transaction();
 
   try {
-    const { firstName, lastName, email, phone, address, tourId, cninc, age } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      tourId,
+      cnic,
+      age,
+      roleId,
+    } = req.body;
 
     const userObj = {
       firstName,
@@ -20,8 +29,9 @@ const createTourist = async (req, res) => {
     let touristObj = {
       ...userObj,
       tourId,
-      cninc,
+      cnic,
       age,
+      name: firstName + " " + lastName,
     };
 
     const user = await User.create(userObj, { transaction });
@@ -31,7 +41,6 @@ const createTourist = async (req, res) => {
       { transaction }
     );
 
-    await Promise.all(touristPromise);
     await transaction.commit();
 
     res.status(201).json({
@@ -58,7 +67,6 @@ const updateTourist = async (req, res) => {
     const touristObj = request[1];
     let existingEntity = await User.findByPk(userObj.userId, {
       raw: true,
-      Include: {},
     });
 
     if (!existingEntity) {
@@ -91,7 +99,7 @@ const updateTourist = async (req, res) => {
       },
       {
         where: {
-          userId: userObj.userId,
+          [Op.and]: [{ userId: userObj.userId }, { tourId: touristObj.tourId }],
         },
       }
     );
@@ -99,7 +107,7 @@ const updateTourist = async (req, res) => {
     console.log("existing user is: ", existingEntity);
 
     res.status(201).json({
-      data: resultUpdate,
+      data: touristUpdate,
       message: "tourist updated successfully",
       status: "success",
     });
@@ -189,13 +197,21 @@ const deleteTourist = async (req, res) => {
 };
 
 const getTouristDetails = async (touristId) => {
-  const tourist = await Tourist.findByPk(parseInt(touristId));
+  const tourist = await Tourist.findByPk(parseInt(touristId), {
+    raw: true,
+    include: [
+      {
+        model: Tour,
+        as: "tours",
+      },
+    ],
+  });
   return tourist;
 };
 
 const getTouristRequestObj = async (req) => {
-  const userId = req.params.id;
-  const { firstName, lastName, email, phone, address, tourId, cninc, age } =
+  const userId = req.params.userId;
+  const { firstName, lastName, email, phone, address, tourId, cnic, age } =
     req.body;
   const userObj = {
     firstName,
@@ -203,13 +219,12 @@ const getTouristRequestObj = async (req) => {
     email,
     phone,
     address,
-    roleId,
     userId,
   };
   const touristObj = {
     ...userObj,
     tourId,
-    cninc,
+    cnic,
     age,
   };
 

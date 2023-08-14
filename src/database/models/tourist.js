@@ -11,10 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Tourist.belongsTo(models.User, { foreignKey: "userId" });
       Tourist.hasMany(models.TouristAmount, { foreignKey: "touristId" });
+      Tourist.belongsTo(models.Tour, { foreignKey: "tourId", as: "tours" });
     }
   }
   Tourist.init(
     {
+      touristId: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+      },
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       cnic: DataTypes.STRING,
