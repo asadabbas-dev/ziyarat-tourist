@@ -137,14 +137,25 @@ const getTourists = async (req, res) => {
   pageNumber = parseInt(pageNumber) || 1;
   let offset = (pageNumber - 1) * pageSize;
 
-  const totalTours = await Tourist.count();
+  const totalTourist = await Tourist.count({
+    where: req.query.tourId ? { tourId: { [Op.eq]: req.query.tourId } } : {},
+  });
 
   let tourists = await Tourist.findAll({
-    where: {
-      tourId: {
-        [Op.eq]: req.params.tourId,
+    include: [
+      {
+        model: Tour,
+        as: "tours",
+        include: [
+          {
+            model: Country,
+            as: "countries_table",
+          },
+        ],
       },
-    },
+    ],
+    where: req.query.tourId ? { tourId: { [Op.eq]: req.query.tourId } } : {},
+
     limit: pageSize,
     offset: offset,
   });
@@ -153,7 +164,7 @@ const getTourists = async (req, res) => {
     message: "tourists get successfully.",
     status: "success",
     paginated: {
-      totalCount: totalTours,
+      totalCount: totalTourist,
       pageNumber: pageNumber,
       pageSize: pageSize,
     },

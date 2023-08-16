@@ -9,8 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      TouristAmount.belongsTo(models.Currency, { foreignKey: "currencyId" });
-      TouristAmount.belongsTo(models.Tour, { foreignKey: "tourId" });
+      TouristAmount.belongsTo(models.Currency, {
+        foreignKey: "currencyId",
+        as: "currencies",
+      });
+      TouristAmount.belongsTo(models.Tour, {
+        foreignKey: "tourId",
+        as: "tours",
+      });
       TouristAmount.belongsTo(models.Tourist, { foreignKey: "touristId" });
     }
   }
@@ -18,10 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tourId: DataTypes.INTEGER,
       currencyId: DataTypes.INTEGER,
-      totalAmountInUsd: DataTypes.FLOAT,
-      totalAmountInRupees: DataTypes.FLOAT,
-      receivedAmountInUsd: DataTypes.FLOAT,
-      receivedAmountInRupees: DataTypes.FLOAT,
+      receivedAmount: DataTypes.FLOAT,
       touristId: DataTypes.INTEGER,
       deletedAt: {
         type: DataTypes.DATE,

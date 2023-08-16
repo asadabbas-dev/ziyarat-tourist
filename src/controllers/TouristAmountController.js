@@ -9,23 +9,12 @@ const {
 
 const addTouristAmount = async (req, res) => {
   try {
-    let {
-      tourId,
-      currencyId,
-      totalAmountInUsd,
-      totalAmountInRupees,
-      receivedAmountInUsd,
-      receivedAmountInRupees,
-      touristId,
-    } = req.body;
+    let { tourId, currencyId, receivedAmount, touristId } = req.body;
 
     const touristAmountObj = {
       tourId,
       currencyId,
-      totalAmountInUsd,
-      totalAmountInRupees,
-      receivedAmountInUsd,
-      receivedAmountInRupees,
+      receivedAmount,
       touristId,
     };
 
@@ -47,15 +36,7 @@ const addTouristAmount = async (req, res) => {
 
 const updateTouristAmount = async (req, res) => {
   const id = req.params.id;
-  let {
-    tourId,
-    currencyId,
-    totalAmountInUsd,
-    totalAmountInRupees,
-    receivedAmountInUsd,
-    receivedAmountInRupees,
-    touristId,
-  } = req.body;
+  let { tourId, currencyId, receivedAmount, touristId } = req.body;
 
   const existingEntity = await TouristAmount.findByPk(id);
   if (!existingEntity) {
@@ -66,10 +47,7 @@ const updateTouristAmount = async (req, res) => {
     {
       tourId: tourId,
       currencyId: currencyId,
-      totalAmountInUsd: totalAmountInUsd,
-      totalAmountInRupees: totalAmountInRupees,
-      receivedAmountInUsd: receivedAmountInUsd,
-      receivedAmountInRupees: receivedAmountInRupees,
+      receivedAmount: receivedAmount,
       touristId: touristId,
     },
     {
@@ -86,28 +64,43 @@ const updateTouristAmount = async (req, res) => {
   });
 };
 
-const getAllTouristAmountById = async (req, res) => {
+const getAllTouristAmount = async (req, res) => {
   let { tourId, touristId, pageSize, pageNumber } = req.query;
   pageSize = parseInt(pageSize) || 10;
   pageNumber = parseInt(pageNumber) || 1;
   let offset = (pageNumber - 1) * pageSize;
 
   try {
+    const whereCondition = {};
+    if (req.query.touristId) {
+      whereCondition.touristId = touristId;
+      if (req.query.tourId) {
+        whereCondition.tourId = tourId;
+      }
+    } else {
+      whereCondition.tourId = tourId;
+    }
+
     const totalTouristAmount = await TouristAmount.count({
-      where: {
-        [Op.and]: [{ touristId: touristId }, { tourId: tourId }],
-      },
+      where: whereCondition,
     });
 
     let touristAmounts = await TouristAmount.findAll({
-      where: {
-        [Op.and]: [{ touristId: touristId }, { tourId: tourId }],
-      },
-      Include: [
+      where: whereCondition,
+
+      include: [
         {
           model: Tour,
+          as: "tours",
+          include: [
+            {
+              model: Currency,
+              as: "currencies",
+            },
+          ],
         },
       ],
+
       limit: pageSize,
       offset: offset,
     });
@@ -171,6 +164,6 @@ const deleteTouristAmountEntry = async (req, res) => {
 module.exports = {
   addTouristAmount,
   updateTouristAmount,
-  getAllTouristAmountById,
+  getAllTouristAmount,
   deleteTouristAmountEntry,
 };

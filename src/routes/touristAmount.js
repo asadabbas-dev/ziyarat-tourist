@@ -17,7 +17,7 @@ touristAmountRouter
 
 touristAmountRouter
   .route("/getTouristAmounts")
-  .get([authentication], touristAmountController.getAllTouristAmountById);
+  .get([authentication], touristAmountController.getAllTouristAmount);
 
 module.exports = {
   touristAmountRouter,
