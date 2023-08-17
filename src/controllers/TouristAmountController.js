@@ -92,12 +92,6 @@ const getAllTouristAmount = async (req, res) => {
         {
           model: Tour,
           as: "tours",
-          include: [
-            {
-              model: Currency,
-              as: "currencies",
-            },
-          ],
         },
       ],
 

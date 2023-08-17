@@ -15,6 +15,7 @@ const { authRouter } = require("./src/routes/auth");
 const { tourRouter } = require("./src/routes/tour");
 const { touristRouter } = require("./src/routes/tourist");
 const { touristAmountRouter } = require("./src/routes/touristAmount");
+const { expenseRouter } = require("./src/routes/expense");
 
 //Middlewares
 const app = express();
@@ -39,6 +40,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/tour", tourRouter);
 app.use("/api/tourist", touristRouter);
 app.use("/api/touristAmount", touristAmountRouter);
+app.use("/api/expense", expenseRouter);
 app.use(errorHandler);
 
 module.exports = {

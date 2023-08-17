@@ -9,10 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Expense.belongsTo(models.Currency, { foreignKey: "currencyId" });
-      Expense.belongsTo(models.Country, { foreignKey: "countryId" });
-      Expense.belongsTo(models.Tour, { foreignKey: "tourId" });
-      // One expense has belongs to one country
+      Expense.belongsTo(models.Currency, {
+        foreignKey: "currencyId",
+        as: "currencies",
+      });
+      Expense.belongsTo(models.Country, {
+        foreignKey: "countryId",
+        as: "countries",
+      });
+      Expense.belongsTo(models.Tour, { foreignKey: "tourId", as: "tours" });
     }
   }
   Expense.init(
