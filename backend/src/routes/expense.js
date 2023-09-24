@@ -9,8 +9,8 @@ module.exports = {
 
 expenseRouter
   .route("/create")
-  .post([authentication], expenseController.expenseController);
+  .post([authentication], expenseController.addExpense);
 
 expenseRouter
   .route("/update/:id")
-  .post([authentication], expenseController.expenseController);
+  .put([authentication], expenseController.updateExpense);

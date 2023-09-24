@@ -1,13 +1,16 @@
-const asyncHandler = require("express-async-handler");
-const errorHandler = asyncHandler(async (err, req, res, next) => {
+const errorHandler = async (error, req, res, next) => {
   console.log("middleware exception: ", err);
-  if (res.headersSent) {
-    return next(err);
-  }
-  //   res.render('error', { error: err })
-  res.status(500).send("Something went wrong!");
+
+  error.statusCode = error.statusCode || 500;
+  error.status = error.status || "error";
+  res.status(error.statusCode).json({
+    data: null,
+    message: "Something went wrong from server!",
+    status: "error",
+  });
+
   next();
-});
+};
 
 module.exports = {
   errorHandler,

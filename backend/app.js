@@ -6,7 +6,7 @@ const helmet = require("helmet");
 
 const {
   errorHandler,
-} = require("../Todo-Portal/src/middlewares/exceptionHandler.middleware");
+} = require("../backend/src/middlewares/exceptionHandler.middleware");
 
 dotenv.config();
 
@@ -19,7 +19,17 @@ const { expenseRouter } = require("./src/routes/expense");
 
 //Middlewares
 const app = express();
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -42,6 +52,11 @@ app.use("/api/tourist", touristRouter);
 app.use("/api/touristAmount", touristAmountRouter);
 app.use("/api/expense", expenseRouter);
 app.use(errorHandler);
+
+// app.use(function (err, req, res, next) {
+//   res.status(500);
+//   res.send("Oops, something went wrong.");
+// });
 
 module.exports = {
   app,
