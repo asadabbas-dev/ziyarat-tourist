@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       Country.belongsToMany(models.Tour, {
         through: models.TourCountry,
         foreignKey: "countryId",
-        as: "tours_table",
-      });
+         as: "tours_table",
+      }); 
     }
   }
   Country.init(

@@ -19,7 +19,8 @@ tourRouter
   .route("/getTour/:id")
   .get([authentication], tourController.getByTourId);
 
-tourRouter.route("/getTours").get([authentication], tourController.getTours);
+tourRouter.route("/getTours").get(tourController.getTours);
+
 
 module.exports = {
   tourRouter,

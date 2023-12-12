@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Dialog with elements</h1>
+<div mat-dialog-content class="touriest-detail-mat">
+    <p class="main-div-text">
+        <mat-form-field class="main-div-text" appearance="outline">
+            <mat-label>Select Country</mat-label>
+            <mat-select [(ngModel)]="selectedOptions" multiple>
+                <mat-option *ngFor="let option of options" [value]="option">{{ option }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button class="main_heading_colors"  (click)="save()">Save</button>
+</div>

@@ -1,10 +1,11 @@
 const { Op, Model } = require("sequelize");
 const db = require("../database/models");
+const development = require('../config/database');
 const { Tourist, Country, User, Tour } = require("../database/models");
 
 const createTourist = async (req, res) => {
   const transaction = await db.sequelize.transaction();
-
+  
   try {
     const {
       firstName,
@@ -245,10 +246,56 @@ const getTouristRequestObj = async (req) => {
   return response;
 };
 
+getTouriestName = (req, res) => {
+  Tourist.findAll()
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Student."
+      });
+    });
+};
+function getTouristsByMonth() {
+  async (req, res) => {
+    try {
+      console.log("inner try top");
+      // const touriest = await db.sequelize.transaction();
+      await sql.connect("development");
+      const result = await sql.query('EXEC GetTouriestCountByMonth');
+      res.json(result.recordset);
+      console.log("inner try bottom");
+    } catch (err) {
+      console.log(err);
+      console.error(err);
+      res.status(500).json({ error: 'An error occurred.' });
+      console.log(err);
+    }
+  };
+}
+// getTouriestCreatedAt = (req, res) => {
+
+//   Tourist.findAll()
+//     .then(data => {
+//       res.send(data);
+//     })
+//     .catch(err => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving Student."
+//       });
+//     });
+// };
+
 module.exports = {
   createTourist,
   updateTourist,
   getTourists,
   getByTouristId,
   deleteTourist,
+  getTouriestName,
+  // getTouriestCreatedAt,
+  getTouristsByMonth,
 };

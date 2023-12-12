@@ -1,21 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { RegisterComponent } from './register/register.component';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
+import { MainLayoutComponent } from './Layout/main-layout/main-layout.component';
+import { ToursComponent } from './toursdetails/tours/tours.component';
+import { UsersComponent } from './users/users.component';
+import { CountriesComponent } from './countries/countries.component';
+import { ExpensesComponent } from './expenses/expenses.component';
+import { MainloginComponent } from './mainlogin/mainlogin.component';
+import { TouriestComponent } from './touriest/touriest.component';
+import { AddEditTouriestComponent } from './touriest/add-edit-touriest/add-edit-touriest.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TourDashboardComponent } from './tour-dashboard/tour-dashboard.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'mod', component: BoardModeratorComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  {
+    path: '',
+    component: MainLayoutComponent, // Your layout component (with header, sidebar, and footer)
+    children: [
+      { path: 'dashboard', component: TourDashboardComponent },
+      { path: 'tours', component: ToursComponent },
+      { path: 'touriest', component: TouriestComponent },
+      { path: 'countries', component: CountriesComponent },
+      { path: 'expenses', component: ExpensesComponent },
+      { path: 'addedittours', component: AddEditTouriestComponent },
+    ],
+  },
+  { path: 'login', component: MainloginComponent },
+  // { path: 'register', component: RegisterComponent },
+  { path: '', redirectTo: 'tours', pathMatch: 'full' }
 ];
 
 @NgModule({

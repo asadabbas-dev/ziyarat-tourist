@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './apilink';
 
-const API_URL = 'http://localhost:8080/api/test/';
+const API_URL = 'http://localhost:5000/api/test/';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private apiUrluser = environment.apiUrluser;
   constructor(private http: HttpClient) {}
 
   getPublicContent(): Observable<any> {
@@ -24,5 +26,10 @@ export class UserService {
 
   getAdminBoard(): Observable<any> {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
+  }
+  getUser(): Observable<any> {
+    debugger
+    const url = `${this.apiUrluser}getUsers`;
+    return this.http.get(url);
   }
 }

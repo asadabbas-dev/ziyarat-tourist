@@ -13,9 +13,13 @@ dotenv.config();
 //Routes imports
 const { authRouter } = require("./src/routes/auth");
 const { tourRouter } = require("./src/routes/tour");
+const { countryRouter } = require("./src/routes/country");
 const { touristRouter } = require("./src/routes/tourist");
+const { dashboardRouter } = require("./src/routes/dashboard");
 const { touristAmountRouter } = require("./src/routes/touristAmount");
 const { expenseRouter } = require("./src/routes/expense");
+const { userRouter } = require("./src/routes/user");
+
 
 //Middlewares
 const app = express();
@@ -48,7 +52,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/tour", tourRouter);
+app.use("/api/country", countryRouter);
+app.use("/api/user", userRouter);
 app.use("/api/tourist", touristRouter);
+app.use("/api/dashboard", dashboardRouter);
 app.use("/api/touristAmount", touristAmountRouter);
 app.use("/api/expense", expenseRouter);
 app.use(errorHandler);

@@ -13,22 +13,38 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardUserComponent } from './board-user/board-user.component';
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { HeaderComponent } from './Layout/header/header.component';
+import { FooterComponent } from './Layout/footer/footer.component';
+import { SidebarComponent } from './Layout/sidebar/sidebar.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { TourDashboardComponent } from './tour-dashboard/tour-dashboard.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
+   
     AppComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
     ProfileComponent,
     BoardModeratorComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    TourDashboardComponent,
+    
   ],
   imports: [
+    RouterModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    NgApexchartsModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

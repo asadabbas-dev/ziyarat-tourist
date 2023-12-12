@@ -22,7 +22,10 @@ touristRouter
 touristRouter
   .route("/getTourists")
   .get([authentication], touristController.getTourists);
+touristRouter
+  .route("/getTouriestName")
+  .get(touristController.getTouriestName);
 
-module.exports = {
-  touristRouter,
-};
+  module.exports = {
+    touristRouter,
+  };
